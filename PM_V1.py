@@ -20,10 +20,10 @@ import matplotlib.pyplot as plt
 import random
 
 # Stocks in portfolio
-ticker = ['AMZN', 'GOLD', 'TSLA', 'META', 'GOOG', 'CL=F', 'NFLX']
+ticker = ['QUBT', 'QBTS', 'RGTI', 'SWPPX']
 
 # Gathers all the stock data (close, open, etc)
-get_data = yf.download(ticker, start="2022-01-01", end = '2024-12-21')['Close']
+get_data = yf.download(ticker, start="2022-01-01", end = '2024-12-21')['Adj Close']
 
 # Obtains your daily returns
 returns = get_data.pct_change().dropna()
@@ -107,6 +107,9 @@ future_returns = np.dot(sim_returns, opt_weights)
 
 # The future return after a year is calculated by compounding each day  
 cumulative_returns = (1 + future_returns).cumprod(axis=1)
+avg_fut_return = cumulative_returns.mean()
+
+print('The average expected future return from this portfolio one year from now is ' + str(round((avg_fut_return - 1)*100, 2))+ '%')
 
 # Plot the Efficient Frontier and CAL
 cal_x = np.linspace(0, max(port_sd), 100) 
